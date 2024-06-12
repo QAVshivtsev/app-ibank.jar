@@ -4,9 +4,7 @@ import com.codeborne.selenide.Condition;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import java.time.Duration;
-
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 import static ru.netology.data.DataGenerator.Registration.getRegisteredUser;
@@ -28,7 +26,7 @@ class AuthTest {
         $("[data-test-id='login'] input").setValue(registeredUser.getLogin());
         $("[data-test-id='password'] input").setValue(registeredUser.getPassword());
         $(byText("Продолжить")).click();
-        $x("//div[contains(text(), 'Личный кабинет')]");
+        $("h2").shouldHave(Condition.exactText("Личный кабинет")).shouldBe(Condition.visible);
     }
 
     @Test
@@ -39,7 +37,6 @@ class AuthTest {
         $("[data-test-id='password'] input").setValue(notRegisteredUser.getPassword());
         $(byText("Продолжить")).click();
         $("[data-test-id='error-notification'] .notification__content")
-
                 .shouldHave(Condition.text("Ошибка! Неверно указан логин или пароль"), Duration.ofSeconds(15))
                 .shouldBe((Condition.visible));
     }
